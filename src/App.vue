@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="test" :numberOfTiles="10"/>
+  <PlayareaComponent :numberOfTiles="10" :minePercent="0.8" :debug="true" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PlayareaComponent from './components/PlayareaComponent.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    PlayareaComponent
   }
 }
 </script>
@@ -22,5 +22,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-size: 16px;
 }
 </style>

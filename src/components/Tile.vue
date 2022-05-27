@@ -1,12 +1,32 @@
 <template>
-  <div class="tile">{{ msg }}</div>
+  <div
+    :style="cssProps"
+    :class="{
+      tile: true,
+      'is-mine': showMine,
+      'is-open': tileData.isOpened,
+      'no-mines': isAlone,
+      'is-marked': tileData.isMarked
+    }" >
+    {{ tileData.text }}
+  </div>
 </template>
 
 <script>
 export default {
   name: 'TileComponent',
   props: {
-    msg: Number
+    tileData: Object,
+  },
+  data() {
+    return {
+      showMine: (this.tileData.debug && this.tileData.isMine)
+        || (this.tileData.isOpened && this.tileData.isMine),
+      isAlone: this.tileData.debug && this.tileData.siblingMines === 0,
+      cssProps: (() => {
+        return `--borderWidth: ${this.tileData.borderWidth}em;`;
+      })()
+    }
   }
 }
 </script>
@@ -16,7 +36,30 @@ export default {
 .tile {
   height: 2em;
   width: 2em;
-  background-color: hotpink;
   flex-shrink: 0;
+  background-color: darkgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--borderWidth) solid black;
+  color: black;
+  cursor: pointer;
+  user-select: none;
+}
+
+.no-mines {
+  background-color: #ddf;
+}
+
+.is-open {
+  background-color: white;
+}
+
+.is-mine {
+  background-color: black;
+}
+
+.is-marked {
+  background-color: hotpink;
 }
 </style>
