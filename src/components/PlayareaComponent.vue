@@ -70,21 +70,22 @@ function generateTiles() {
     }
   }
 
+  // Draw a map of the playarea in to the console.
   if (this.debug) {
-    let string;
+    let playareaRow;
 
     for (let y = 0; y < result.length; y++) {
-      string = '';
+      playareaRow = '';
 
       for (let x = 0; x < result.length; x++) {
         if (result[y][x].isMine) {
-          string += 'x ';
+          playareaRow += 'x ';
         } else {
-          string += '0 ';
+          playareaRow += '0 ';
         }
       }
 
-      console.debug(string);
+      console.debug(playareaRow);
     }
   }
 
