@@ -1,6 +1,6 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <PlayareaComponent :numberOfTiles="10" :minePercent="0.8" :debug="true" />
+  <input type="number" name="playarea-size" id="playarea-size-input" v-model="numberOfTiles" @input="resetPlayarea">
+  <PlayareaComponent :numberOfTiles="numberOfTiles" :minePercent="minePercent" :debug="isDebugOn" ref="playarea" />
 </template>
 
 <script>
@@ -10,12 +10,25 @@ export default {
   name: 'App',
   components: {
     PlayareaComponent
+  },
+  data() {
+    return {
+      numberOfTiles: 10,
+      minePercent: 0.8,
+      isDebugOn: false,
+    }
+  },
+  methods: {
+    resetPlayarea() {
+      this.$refs.playarea.reset();
+    }
   }
 }
 </script>
 
 <style>
 :root {
+  --defaultTextColor: #2c3e50;
   --closedBg: darkgrey;
   --openedBg: white;
   --tileTextColor: black;
@@ -24,13 +37,16 @@ export default {
   --markedBg: hotpink;
 }
 
+html {
+  font-size: 16px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  font-size: 16px;
+  color: var(--defaultTextColor);
+  margin-top: 4rem;
 }
 </style>

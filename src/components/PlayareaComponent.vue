@@ -144,6 +144,9 @@ export default {
     isActive: function isActive() {
       return this.state === states.active;
     },
+    reset: function reset() {
+      this.tiles = generateTiles.call(this);
+    },
     openSiblingTiles: function openSiblingTiles(coordinates) {
       const { xMin, yMin } = getMinCoordinates(coordinates);
       const { xMax, yMax } = getMaxCoordinates(coordinates, this.numberOfTiles);
