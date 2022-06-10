@@ -3,9 +3,9 @@
     :style="cssProps"
     :class="{
       tile: true,
-      'is-mine': showMine,
+      'is-mine': isMine(),
       'is-open': tileData.isOpened,
-      'no-mines': isAlone,
+      'no-mines': isAlone(),
       'is-marked': tileData.isMarked
     }" >
     {{ tileData.text }}
@@ -20,12 +20,17 @@ export default {
   },
   data() {
     return {
-      showMine: (this.tileData.debug && this.tileData.isMine)
-        || (this.tileData.isOpened && this.tileData.isMine),
-      isAlone: this.tileData.debug && this.tileData.siblingMines === 0,
       cssProps: (() => {
         return `--borderWidth: ${this.tileData.borderWidth}em;`;
       })()
+    }
+  },
+  methods: {
+    isMine() {
+      return this.tileData.isMine && (this.tileData.debug || this.tileData.isOpened);
+    },
+    isAlone() {
+      return this.tileData.siblingMines === 0 && (this.tileData.debug || this.tileData.isOpened);
     }
   }
 }
@@ -47,12 +52,12 @@ export default {
   user-select: none;
 }
 
-.no-mines {
-  background-color: var(--noMinesBg);
-}
-
 .is-open {
   background-color: var(--openedBg);
+}
+
+.no-mines {
+  background-color: var(--noMinesBg);
 }
 
 .is-mine {

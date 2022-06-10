@@ -26,6 +26,22 @@ const tileBorderWidth = 0.1;
 
 states.default = states.active;
 
+function getMinCoordinates(coordinates) {
+  return {
+    yMin: Math.max((coordinates.y - 1), 0),
+    xMin: Math.max((coordinates.x - 1), 0)
+  };
+}
+
+function getMaxCoordinates(coordinates, size) {
+  const maxRowIndex = size - 1;
+
+  return {
+    yMax: Math.min((coordinates.y + 1), maxRowIndex),
+    xMax: Math.min((coordinates.x + 1), maxRowIndex)
+  };
+}
+
 function generateTiles() {
   const result = [];
   let counter = 0;
@@ -33,13 +49,12 @@ function generateTiles() {
 
   function determineSiblingMineCount(tiles, coordinates, size) {
     let siblings = 0;
-    let y = Math.max((coordinates.y - 1), 0);
-    const endY = Math.min((coordinates.y + 1), (tiles.length - 1));
-    let startX = Math.max((coordinates.x - 1), 0);
-    const endX = Math.min((coordinates.x + 1), (size - 1));
 
-    for (y; y <= endY; y++) {
-      for (let x = startX; x <= endX; x++) {
+    const { xMin, yMin } = getMinCoordinates(coordinates);
+    const { xMax, yMax } = getMaxCoordinates(coordinates, size);
+
+    for (let y = yMin; y <= yMax; y++) {
+      for (let x = xMin; x <= xMax; x++) {
         if (tiles[y][x].isMine) {
           siblings++;
         }
@@ -59,7 +74,7 @@ function generateTiles() {
       result[i].push({
         id: counter,
         isMine: isMine,
-        isOpen: false,
+        isOpened: false,
         isMarked: false,
         borderWidth: tileBorderWidth,
         siblingMines: isMine ? -1 : 0,
@@ -129,23 +144,31 @@ export default {
     isActive: function isActive() {
       return this.state === states.active;
     },
+    openSiblingTiles: function openSiblingTiles(coordinates) {
+      const { xMin, yMin } = getMinCoordinates(coordinates);
+      const { xMax, yMax } = getMaxCoordinates(coordinates, this.numberOfTiles);
+
+      for (let y = yMin; y <= yMax; y++) {
+        for (let currentX = xMin; currentX <= xMax; currentX++) {
+          this.open(this.tiles[y][currentX]);
+        }
+      }
+    },
     afterTileOpen: function afterTileOpen(tile) {
       if (tile.isMine) {
         this.state = states.end;
         this.msg = 'You have found a mine :)';
+        console.log(tile);
         return;
       }
 
       if (tile.siblingMines === 0) {
-        console.log('should show lonely tiles');
-        console.log(tile.coordinates);
-        // TODO: "Click" on all tiles around the original tile
-        // this.open(this.tiles[0][0]);
+        this.openSiblingTiles(tile.coordinates);
         return;
       }
     },
     open: function openTile(tile) {
-      if (tile.isOpen || tile.isMarked) {
+      if (tile.isOpened || tile.isMarked || this.state === states.end) {
         return;
       }
 
