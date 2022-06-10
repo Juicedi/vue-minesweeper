@@ -37,29 +37,29 @@ export default {
   height: 2em;
   width: 2em;
   flex-shrink: 0;
-  background-color: darkgrey;
+  background-color: var(--closedBg);
   display: flex;
   align-items: center;
   justify-content: center;
   border: var(--borderWidth) solid black;
-  color: black;
+  color: var(--tileTextColor);
   cursor: pointer;
   user-select: none;
 }
 
 .no-mines {
-  background-color: #ddf;
+  background-color: var(--noMinesBg);
 }
 
 .is-open {
-  background-color: white;
+  background-color: var(--openedBg);
 }
 
 .is-mine {
-  background-color: black;
+  background-color: var(--mineBg);
 }
 
 .is-marked {
-  background-color: hotpink;
+  background-color: var(--markedBg);
 }
 </style>

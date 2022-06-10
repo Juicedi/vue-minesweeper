@@ -15,6 +15,15 @@ export default {
 </script>
 
 <style>
+:root {
+  --closedBg: darkgrey;
+  --openedBg: white;
+  --tileTextColor: black;
+  --noMinesBg: #ddf;
+  --mineBg: black;
+  --markedBg: hotpink;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
