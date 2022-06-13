@@ -3,9 +3,9 @@
     :style="cssProps"
     :class="{
       tile: true,
-      'is-mine': isMine(),
+      'is-mine': showMine,
       'is-open': tileData.isOpened,
-      'no-mines': isAlone(),
+      'no-mines': isAlone,
       'is-marked': tileData.isMarked
     }" >
     {{ tileData.text }}
@@ -15,9 +15,11 @@
 <script>
 export default {
   name: 'TileComponent',
+
   props: {
     tileData: Object,
   },
+
   data() {
     return {
       cssProps: (() => {
@@ -25,8 +27,9 @@ export default {
       })()
     }
   },
-  methods: {
-    isMine() {
+
+  computed: {
+    showMine() {
       return this.tileData.isMine && (this.tileData.debug || this.tileData.isOpened);
     },
     isAlone() {

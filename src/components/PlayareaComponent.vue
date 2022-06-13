@@ -1,7 +1,8 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-  </div>
+  <button type="button" @click="toggleDebug">Toggle debug</button>
+
+  <h1>{{ msg }}</h1>
+
   <div class="playarea-wrapper">
     <div class="playarea" :style="cssProps">
       <Tile
@@ -21,6 +22,11 @@ const states = {
   active: 'playarea-active',
   end: 'playarea-stop',
 }
+
+const messages = {
+  default: 'Click squares and try not to click on any mines',
+  mined: 'You have found a mine :)',
+};
 
 const tileBorderWidth = 0.1;
 
@@ -45,7 +51,6 @@ function getMaxCoordinates(coordinates, size) {
 function generateTiles() {
   const result = [];
   let counter = 0;
-  let isMine;
 
   function determineSiblingMineCount(tiles, coordinates, size) {
     let siblings = 0;
@@ -64,24 +69,27 @@ function generateTiles() {
     return siblings;
   }
 
+
   for (let i = 0; i < this.numberOfTiles; i++) {
     result.push([]);
 
     for (let j = 0; j < this.numberOfTiles; j++) {
       counter++;
-      isMine = Math.random() > this.minePercent;
+      const isMine = Math.random() > this.minePercent;
 
-      result[i].push({
+      const tileData = {
         id: counter,
-        isMine: isMine,
         isOpened: false,
         isMarked: false,
+        isMine: isMine,
         borderWidth: tileBorderWidth,
         siblingMines: isMine ? -1 : 0,
         coordinates: { x: j, y: i },
         text: '',
-        debug: this.debug,
-      });
+        debug: this.debugState,
+      };
+
+      result[i].push(tileData);
     }
   }
 
@@ -112,6 +120,7 @@ function generateTiles() {
 
       if (!tile.isMine) {
         tile.siblingMines = determineSiblingMineCount(result, { x, y }, this.numberOfTiles);
+        tile.showAlone = tile.siblingMines === 0 && (this.debugState || tile.isOpened);
       }
     }
   }
@@ -134,18 +143,30 @@ export default {
 
   data() {
     return {
-      msg: 'Click squares and try not to click on any mines',
+      msg: messages.default,
       state: states.default,
+      debugState: this.debug,
       tiles: generateTiles.call(this)
     }
   },
 
   methods: {
+    toggleDebug: function toggleDebug() {
+      this.debugState = !this.debugState;
+
+      this.tiles.forEach((row) => {
+        row.forEach((tile) => {
+          tile.debug = this.debugState;
+        });
+      });
+    },
     isActive: function isActive() {
       return this.state === states.active;
     },
     reset: function reset() {
       this.tiles = generateTiles.call(this);
+      this.msg = messages.default;
+      this.state = states.default;
     },
     openSiblingTiles: function openSiblingTiles(coordinates) {
       const { xMin, yMin } = getMinCoordinates(coordinates);
@@ -160,8 +181,7 @@ export default {
     afterTileOpen: function afterTileOpen(tile) {
       if (tile.isMine) {
         this.state = states.end;
-        this.msg = 'You have found a mine :)';
-        console.log(tile);
+        this.msg = messages.mined;
         return;
       }
 
@@ -180,7 +200,7 @@ export default {
       this.afterTileOpen(tile);
     },
     mark: function openTile(tile) {
-      if (tile.isOpened) {
+      if (tile.isOpened || this.state === states.end) {
         return;
       }
 
