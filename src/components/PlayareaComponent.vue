@@ -17,15 +17,15 @@
 
 <script>
 import Tile from './Tile.vue';
-
 const states = {
   active: 'playarea-active',
-  end: 'playarea-stop',
+  inactive: 'playarea-inactive',
 };
 
 const messages = {
   default: 'Click squares and try not to click on any mines',
   mined: 'You have found a mine :)',
+  win: 'The winner is you!',
 };
 
 const tileBorderWidth = 0.1;
@@ -129,6 +129,10 @@ export default {
 
   data() {
     return {
+      mineCount: 0,
+      openedTileCount: 0,
+      markedMineCount: 0,
+      markCount: 0,
       msg: messages.default,
       state: states.default,
       debugState: this.debug,
@@ -179,20 +183,33 @@ export default {
     },
     afterTileOpen: function (tile) {
       if (tile.isMine) {
-        this.state = states.end;
+        this.state = states.inactive;
         this.msg = messages.mined;
 
         return;
       }
+
+      this.openedTileCount++;
 
       if (tile.siblingMines === 0) {
         this.openSiblingTiles(tile.coordinates);
 
         return;
       }
+
+      if (this.mineCount === 0) {
+        this.mineCount = this.getMineCount();
+      }
+
+      const allSafeTilesOpen = this.openedTileCount === (this.tiles.length * this.tiles.length) - this.mineCount;
+
+      if (allSafeTilesOpen) {
+        this.state = states.inactive;
+        this.msg = messages.win;
+      }
     },
     open: function (tile) {
-      if (tile.isOpened || tile.isMarked || this.state === states.end) {
+      if (tile.isOpened || tile.isMarked || this.state === states.inactive) {
         return;
       }
 
@@ -201,11 +218,32 @@ export default {
       this.afterTileOpen(tile);
     },
     mark: function (tile) {
-      if (tile.isOpened || this.state === states.end) {
+      if (tile.isOpened || this.state === states.inactive) {
         return;
       }
 
       tile.isMarked = !tile.isMarked;
+
+      if (tile.isMarked) {
+        this.markCount++;
+
+        if (tile.isMine) {
+          this.markedMineCount++;
+        }
+      } else {
+        this.markCount--;
+
+        if (tile.isMine) {
+          this.markedMineCount--;
+        }
+      }
+
+      const onlyMinesMarked = this.markedMineCount === this.mineCount && this.markCount === this.markedMineCount;
+
+      if (onlyMinesMarked) {
+        this.state = states.inactive;
+        this.msg = messages.win;
+      }
     },
   },
 
