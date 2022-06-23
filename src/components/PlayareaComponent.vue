@@ -69,7 +69,6 @@ function generateTiles() {
     return siblings;
   }
 
-
   for (let i = 0; i < this.numberOfTiles; i++) {
     result.push([]);
 
@@ -132,7 +131,7 @@ export default {
   },
 
   methods: {
-    toggleDebug: function toggleDebug() {
+    toggleDebug() {
       this.debugState = !this.debugState;
 
       this.tiles.forEach((row) => {
@@ -141,15 +140,15 @@ export default {
         });
       });
     },
-    isActive: function isActive() {
+    isActive: function () {
       return this.state === states.active;
     },
-    reset: function reset() {
+    reset: function () {
       this.tiles = generateTiles.call(this);
       this.msg = messages.default;
       this.state = states.default;
     },
-    openSiblingTiles: function openSiblingTiles(coordinates) {
+    openSiblingTiles: function (coordinates) {
       const { xMin, yMin } = getMinCoordinates(coordinates);
       const { xMax, yMax } = getMaxCoordinates(coordinates, this.numberOfTiles);
 
@@ -159,7 +158,7 @@ export default {
         }
       }
     },
-    afterTileOpen: function afterTileOpen(tile) {
+    afterTileOpen: function (tile) {
       if (tile.isMine) {
         this.state = states.end;
         this.msg = messages.mined;
@@ -171,7 +170,7 @@ export default {
         return;
       }
     },
-    open: function openTile(tile) {
+    open: function (tile) {
       if (tile.isOpened || tile.isMarked || this.state === states.end) {
         return;
       }
@@ -180,7 +179,7 @@ export default {
       tile.isOpened = true;
       this.afterTileOpen(tile);
     },
-    mark: function openTile(tile) {
+    mark: function (tile) {
       if (tile.isOpened || this.state === states.end) {
         return;
       }
