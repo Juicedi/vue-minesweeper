@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import PlayareaComponent from './components/PlayareaComponent.vue'
+import PlayareaComponent from './components/PlayareaComponent.vue';
 
 export default {
   name: 'App',
@@ -16,14 +16,14 @@ export default {
       numberOfTiles: 10,
       minePercent: 0.8,
       isDebugOn: false,
-    }
+    };
   },
   methods: {
     resetPlayarea() {
       this.$refs.playarea.reset();
     }
   }
-}
+};
 </script>
 
 <style>

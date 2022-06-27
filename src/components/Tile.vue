@@ -25,7 +25,7 @@ export default {
       cssProps: (() => {
         return `--borderWidth: ${this.tileData.borderWidth}em;`;
       })()
-    }
+    };
   },
 
   computed: {
@@ -36,7 +36,7 @@ export default {
       return this.tileData.siblingMines === 0 && (this.tileData.debug || this.tileData.isOpened);
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

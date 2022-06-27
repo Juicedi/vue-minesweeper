@@ -33,6 +33,18 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
+      "indent": ["error", 2],
+      "object-curly-newline": ["error", "always"],
+      "object-property-newline": "error",
+      "object-curly-spacing": [ "error", "always" ],
+      "semi": ["error", "always"],
+      "no-unneeded-ternary": "error",
+      "no-trailing-spaces": "error",
+      "no-var": "error",
+      "no-shadow": "error",
+      "yoda": "error",
+      "no-multi-spaces": "error",
+      "curly": "error",
       "func-names": [ "error", "as-needed" ],
       "quotes": [ "error", "single" ],
       "array-bracket-spacing": [ "error", "always" ],

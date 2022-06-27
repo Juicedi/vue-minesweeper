@@ -21,7 +21,7 @@ import Tile from './Tile.vue';
 const states = {
   active: 'playarea-active',
   end: 'playarea-stop',
-}
+};
 
 const messages = {
   default: 'Click squares and try not to click on any mines',
@@ -55,8 +55,12 @@ function generateTiles() {
   function determineSiblingMineCount(tiles, coordinates, size) {
     let siblings = 0;
 
-    const { xMin, yMin } = getMinCoordinates(coordinates);
-    const { xMax, yMax } = getMaxCoordinates(coordinates, size);
+    const {
+      xMin, yMin
+    } = getMinCoordinates(coordinates);
+    const {
+      xMax, yMax
+    } = getMaxCoordinates(coordinates, size);
 
     for (let y = yMin; y <= yMax; y++) {
       for (let x = xMin; x <= xMax; x++) {
@@ -83,7 +87,10 @@ function generateTiles() {
         isMine: isMine,
         borderWidth: tileBorderWidth,
         siblingMines: isMine ? -1 : 0,
-        coordinates: { x: j, y: i },
+        coordinates: {
+          x: j,
+          y: i
+        },
         text: '',
         debug: this.debugState,
       };
@@ -99,7 +106,10 @@ function generateTiles() {
       console.assert(typeof tile !== 'undefined', `undefined tile at: x=${x} y=${y}`);
 
       if (!tile.isMine) {
-        tile.siblingMines = determineSiblingMineCount(result, { x, y }, this.numberOfTiles);
+        tile.siblingMines = determineSiblingMineCount(result, {
+          x,
+          y
+        }, this.numberOfTiles);
         tile.showAlone = tile.siblingMines === 0 && (this.debugState || tile.isOpened);
       }
     }
@@ -127,7 +137,7 @@ export default {
       state: states.default,
       debugState: this.debug,
       tiles: generateTiles.call(this)
-    }
+    };
   },
 
   methods: {
@@ -149,8 +159,12 @@ export default {
       this.state = states.default;
     },
     openSiblingTiles: function (coordinates) {
-      const { xMin, yMin } = getMinCoordinates(coordinates);
-      const { xMax, yMax } = getMaxCoordinates(coordinates, this.numberOfTiles);
+      const {
+        xMin, yMin
+      } = getMinCoordinates(coordinates);
+      const {
+        xMax, yMax
+      } = getMaxCoordinates(coordinates, this.numberOfTiles);
 
       for (let y = yMin; y <= yMax; y++) {
         for (let currentX = xMin; currentX <= xMax; currentX++) {
@@ -191,12 +205,12 @@ export default {
   computed: {
     cssProps() {
       return {
-        '--size': (this.numberOfTiles * 2) + (this.numberOfTiles * 2 * tileBorderWidth) + "em",
+        '--size': (this.numberOfTiles * 2) + (this.numberOfTiles * 2 * tileBorderWidth) + 'em',
         '--borderWidth': `${tileBorderWidth}em`,
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
