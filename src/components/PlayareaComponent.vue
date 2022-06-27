@@ -55,12 +55,8 @@ function generateTiles() {
   function determineSiblingMineCount(tiles, coordinates, size) {
     let siblings = 0;
 
-    const {
-      xMin, yMin
-    } = getMinCoordinates(coordinates);
-    const {
-      xMax, yMax
-    } = getMaxCoordinates(coordinates, size);
+    const { xMin, yMin } = getMinCoordinates(coordinates);
+    const { xMax, yMax } = getMaxCoordinates(coordinates, size);
 
     for (let y = yMin; y <= yMax; y++) {
       for (let x = xMin; x <= xMax; x++) {
@@ -141,6 +137,19 @@ export default {
   },
 
   methods: {
+    getMineCount() {
+      let count = 0;
+
+      this.tiles.forEach((row) => {
+        row.forEach((tile) => {
+          if (tile.isMine) {
+            count++;
+          }
+        });
+      });
+
+      return count;
+    },
     toggleDebug() {
       this.debugState = !this.debugState;
 
@@ -159,12 +168,8 @@ export default {
       this.state = states.default;
     },
     openSiblingTiles: function (coordinates) {
-      const {
-        xMin, yMin
-      } = getMinCoordinates(coordinates);
-      const {
-        xMax, yMax
-      } = getMaxCoordinates(coordinates, this.numberOfTiles);
+      const { xMin, yMin } = getMinCoordinates(coordinates);
+      const { xMax, yMax } = getMaxCoordinates(coordinates, this.numberOfTiles);
 
       for (let y = yMin; y <= yMax; y++) {
         for (let currentX = xMin; currentX <= xMax; currentX++) {
@@ -176,11 +181,13 @@ export default {
       if (tile.isMine) {
         this.state = states.end;
         this.msg = messages.mined;
+
         return;
       }
 
       if (tile.siblingMines === 0) {
         this.openSiblingTiles(tile.coordinates);
+
         return;
       }
     },

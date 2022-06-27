@@ -33,8 +33,14 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
+      "newline-before-return": "error",
       "indent": ["error", 2],
-      "object-curly-newline": ["error", "always"],
+      "object-curly-newline": ["error", {
+        "ObjectExpression": "always",
+        "ObjectPattern": "never",
+        "ImportDeclaration": "never",
+        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+      }],
       "object-property-newline": "error",
       "object-curly-spacing": [ "error", "always" ],
       "semi": ["error", "always"],
@@ -44,7 +50,7 @@
       "no-shadow": "error",
       "yoda": "error",
       "no-multi-spaces": "error",
-      "curly": "error",
+      "curly": ["error", "all"],
       "func-names": [ "error", "as-needed" ],
       "quotes": [ "error", "single" ],
       "array-bracket-spacing": [ "error", "always" ],
