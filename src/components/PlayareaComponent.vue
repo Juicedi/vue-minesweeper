@@ -135,8 +135,6 @@ export default {
     return {
       mineCount: 0,
       openedTileCount: 0,
-      markedMineCount: 0,
-      markCount: 0,
       msg: messages.default,
       state: states.default,
       debugState: this.debug,
@@ -227,27 +225,6 @@ export default {
       }
 
       tile.isMarked = !tile.isMarked;
-
-      if (tile.isMarked) {
-        this.markCount++;
-
-        if (tile.isMine) {
-          this.markedMineCount++;
-        }
-      } else {
-        this.markCount--;
-
-        if (tile.isMine) {
-          this.markedMineCount--;
-        }
-      }
-
-      const onlyMinesMarked = this.markedMineCount === this.mineCount && this.markCount === this.markedMineCount;
-
-      if (onlyMinesMarked) {
-        this.state = states.inactive;
-        this.msg = messages.win;
-      }
     },
   },
 
