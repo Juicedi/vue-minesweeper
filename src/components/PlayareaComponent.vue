@@ -76,6 +76,11 @@ function generateTiles() {
       counter++;
       const isMine = Math.random() > this.minePercent;
 
+      const coordinates = {
+        x: j,
+        y: i
+      };
+
       const tileData = {
         id: counter,
         isOpened: false,
@@ -83,10 +88,7 @@ function generateTiles() {
         isMine: isMine,
         borderWidth: tileBorderWidth,
         siblingMines: isMine ? -1 : 0,
-        coordinates: {
-          x: j,
-          y: i
-        },
+        coordinates,
         text: '',
         debug: this.debugState,
       };
@@ -101,11 +103,13 @@ function generateTiles() {
 
       console.assert(typeof tile !== 'undefined', `undefined tile at: x=${x} y=${y}`);
 
+      const coordinates = {
+        x,
+        y
+      };
+
       if (!tile.isMine) {
-        tile.siblingMines = determineSiblingMineCount(result, {
-          x,
-          y
-        }, this.numberOfTiles);
+        tile.siblingMines = determineSiblingMineCount(result, coordinates, this.numberOfTiles);
         tile.showAlone = tile.siblingMines === 0 && (this.debugState || tile.isOpened);
       }
     }
