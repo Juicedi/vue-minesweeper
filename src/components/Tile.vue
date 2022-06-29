@@ -6,6 +6,14 @@
       'is-mine': showMine,
       'is-open': tileData.isOpened,
       'no-mines': isAlone,
+      'mine-count-1': tileData.siblingMines === 1 && tileData.isOpened,
+      'mine-count-2': tileData.siblingMines === 2 && tileData.isOpened,
+      'mine-count-3': tileData.siblingMines === 3 && tileData.isOpened,
+      'mine-count-4': tileData.siblingMines === 4 && tileData.isOpened,
+      'mine-count-5': tileData.siblingMines === 5 && tileData.isOpened,
+      'mine-count-6': tileData.siblingMines === 6 && tileData.isOpened,
+      'mine-count-7': tileData.siblingMines === 7 && tileData.isOpened,
+      'mine-count-8': tileData.siblingMines === 8 && tileData.isOpened,
       'is-marked': tileData.isMarked
       }" >
 
@@ -79,6 +87,38 @@ export default {
   background-color: var(--openedBg);
 }
 
+.mine-count-1 {
+  background-color: hsl(0, 100%, 93.75%);
+}
+
+.mine-count-2 {
+  background-color: hsl(0, 100%, 87.5%);
+}
+
+.mine-count-3 {
+  background-color: hsl(0, 100%, 81.25%);
+}
+
+.mine-count-4 {
+  background-color: hsl(0, 100%, 75%);
+}
+
+.mine-count-5 {
+  background-color: hsl(0, 100%, 68.75%);
+}
+
+.mine-count-6 {
+  background-color: hsl(0, 100%, 62.5%);
+}
+
+.mine-count-7 {
+  background-color: hsl(0, 100%, 56.25%);
+}
+
+.mine-count-8 {
+  background-color: hsl(0, 100%, 50%);
+}
+
 .no-mines {
   background-color: var(--noMinesBg);
 }
@@ -90,6 +130,10 @@ export default {
   left: 50%;
   height: 100%;
   width: 100%;
+}
+
+.is-mine {
+  background-color: hsl(0, 50%, 50%);
 }
 
 .icon svg {
