@@ -172,6 +172,7 @@ export default {
       this.tiles = generateTiles.call(this);
       this.msg = messages.default;
       this.state = states.default;
+      this.openedTileCount = 0;
     },
     openSiblingTiles: function (coordinates) {
       const { xMin, yMin } = getMinCoordinates(coordinates);
