@@ -121,7 +121,13 @@ export default {
 }
 
 .no-mines {
+  transition: none;
   background-color: var(--noMinesBg);
+}
+
+.is-mine {
+  transition: none;
+  background-color: hsl(0, 50%, 50%);
 }
 
 .icon {
@@ -131,10 +137,6 @@ export default {
   left: 50%;
   height: 100%;
   width: 100%;
-}
-
-.is-mine {
-  background-color: hsl(0, 50%, 50%);
 }
 
 .icon svg {
