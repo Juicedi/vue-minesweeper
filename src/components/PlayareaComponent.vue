@@ -215,7 +215,12 @@ export default {
         return;
       }
 
-      tile.text = tile.isMine ? '' : tile.siblingMines;
+      if (tile.isMine || tile.siblingMines === 0) {
+        tile.text = '';
+      } else {
+        tile.text = tile.siblingMines;
+      }
+
       tile.isOpened = true;
       this.afterTileOpen(tile);
     },
