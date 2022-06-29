@@ -180,6 +180,10 @@ export default {
 
       for (let y = yMin; y <= yMax; y++) {
         for (let currentX = xMin; currentX <= xMax; currentX++) {
+          if (this.tiles[y][currentX].isOpened) {
+            continue;
+          }
+
           this.open(this.tiles[y][currentX]);
         }
       }
@@ -212,18 +216,20 @@ export default {
       }
     },
     open: function (tile) {
-      if (tile.isOpened || tile.isMarked || this.state === states.inactive) {
-        return;
-      }
+      setTimeout(() => {
+        if (tile.isOpened || tile.isMarked || this.state === states.inactive) {
+          return;
+        }
 
-      if (tile.isMine || tile.siblingMines === 0) {
-        tile.text = '';
-      } else {
-        tile.text = tile.siblingMines;
-      }
+        if (tile.isMine || tile.siblingMines === 0) {
+          tile.text = '';
+        } else {
+          tile.text = tile.siblingMines;
+        }
 
-      tile.isOpened = true;
-      this.afterTileOpen(tile);
+        tile.isOpened = true;
+        this.afterTileOpen(tile);
+      }, 50);
     },
     mark: function (tile) {
       if (tile.isOpened || this.state === states.inactive) {

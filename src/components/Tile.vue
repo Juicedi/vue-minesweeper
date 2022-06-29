@@ -81,6 +81,7 @@ export default {
   color: var(--tileTextColor);
   cursor: pointer;
   user-select: none;
+  transition: background-color 200ms;
 }
 
 .is-open {
